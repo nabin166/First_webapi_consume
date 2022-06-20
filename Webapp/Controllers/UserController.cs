@@ -22,5 +22,19 @@ namespace Webapp.Controllers
             }
             return View(students);
         }
+        
+        public IActionResult Create(StudentModel student)
+        {
+            HttpClient client = apiConnect.init();
+            var posttask = client.PostAsJsonAsync<StudentModel>("/api/User/add",student);
+     //       posttask.Wait();
+
+            var result = posttask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }
